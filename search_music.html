@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="referrer" content="never">
+		<link rel="stylesheet" type="text/css" href="css/search_music.css" />
+		<link rel="stylesheet" type="text/css" href="css/default.css" />
+		<!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
+		<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_830700_gunkf0ln0dh.css" />
+
+		<title></title>
+	</head>
+
+	<script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+
+	<body>
+		<div class="clearfix" style="width: 1000px;margin: 38px auto;">
+			<h3>QQ音乐</h3>
+
+			<div class="search fl">
+				<input type="text" value="" placeholder="搜索音乐、单曲、歌手、专辑" id="info" onpropertychange="showSong()" oninput="showSong()" /><i class="icon-sousuo iconfont" onclick="saveSearchWords()"></i>
+
+				<div class="search_result">
+					<h4 class="song"><i class="icon-yinle iconfont"></i>单曲</h4>
+					<div class="song_list">
+
+					</div>
+					<h4 class="singer"><i class="icon-yonghu iconfont"></i>歌手</h4>
+					<div class="singer_list">
+
+					</div>
+					<h4 class="album"><i class="icon-zhuanji iconfont"></i>专辑</h4>
+					<div class="album_list">
+
+					</div>
+				</div>
+				<div class="default_song">
+					<ul>
+						<li song_id="276766">灰姑娘</li>
+						<li song_id="320296">差一点</li>
+						<li song_id="352989">他一定很爱你</li>
+						<li song_id="433275">下雨的时候会想你</li>
+						<li song_id="267690">爱一点</li>
+						<li song_id="1329365">Always Online</li>
+						<li song_id="430248">我在你的爱情之外</li>
+						<li song_id="5738291">爱笑的眼睛</li>
+						<li song_id="353040">天黑</li>
+
+					</ul>
+				</div>
+				<div class="search_history ">
+
+					<div class="clearfix delbox">
+						<h4 class="fl" style="color: #999;"><span style="display: inline-block; width: 200px;">搜索历史</span> <i class="icon-shanchu iconfont fr delete"></i></h4>
+					</div>
+					<div class="search_history_list">
+
+					</div>
+				</div>
+
+			</div>
+
+			<div id="" class="fr" style="width: 648px;margin: 30px 0">
+				<div class="simple_song_info">
+					<!--显示单曲信息-->
+				</div>
+				<div class="singer_song" style="margin: 90px 0">
+					<!--显示歌手歌曲列表-->
+					<div class="singer_info_list clearfix">
+						<div class="fl"><img src="" /></div>
+						<div class=" fl" style="    margin-left: 100px;">
+							<p class="name"></p>
+							<p class="singer_info">
+								<span></span>
+							</p>
+							<!--<i class="icon-Icon_bofang iconfont btn_play"></i>
+						</div>-->
+						</div>
+
+					</div>
+					<h3><span>歌曲名</span><span>专辑名</span></h3>
+					<div class="singer_song_list">
+					</div>
+				</div>
+
+			</div>
+
+			<audio src="" id="audio"></audio>
+	</body>
+	<script src="js/myUtil.js"></script>
+	<script type="text/javascript">
+		var b = true;
+		//			var audio = document.createElement('audio');
+		//删除搜索历史数据
+		$('i.delete').click(function() {
+			$('.search_history_list p').remove();
+		})
+		//保存数据
+		function saveSearchWords() {
+			var value = $("#info").val();
+			localStorage.setItem(value, value);
+
+			//			alert("添加成功");
+
+		}
+		//将所有存储在localStorage中的对象提取出来，并展现到界面上
+		loadAll();
+
+		function loadAll() {
+			if(localStorage.length > 0) {
+
+				for(var i = 0; i < localStorage.length; i++) {
+
+					var k = localStorage.key(i);
+					var value = localStorage.getItem(k);
+					var $p = document.createElement('p');
+					$('.search_history_list').append($p);
+					$p.innerHTML = value;
+				}
+
+			} else {
+				$('.search_history_list').text("");
+			}
+
+		}
+
+		//输入框输入内容时，显示查询结果列表
+		function showSong() {
+
+			var value = $("#info").val();
+
+			$('.search_result').show();
+			$('.default_song').hide();
+			$('.search_history ').hide(); //搜索历史隐藏
+
+			//如果输入内容为空,收起显示列表
+			if(value == "") {
+				$('.search_result').hide();
+				$('.default_song').show();
+			}
+
+			//查询列表
+			$.ajax({
+				type: "get",
+				//				url: "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.catalogSug&query=" + value,
+				url: "http://120.78.225.98/mu/getInfo?m=" + encodeURI(value),
+				async: true,
+				dataType: "json",
+				//jsonp: "callback",
+				//jsonpCallback:'callback',
+				success: function(data) {
+
+					console.log(data);
+
+					//清空上一次查询的结果
+					$('.song_list').empty();
+					$('.singer_list').empty();
+					$('.album_list').empty();
+					$('.album_list').empty();
+
+					/*					//歌曲的数量
+										var song_len = data.song.length;
+										//歌手的数量					
+										var artist_len = data.artist.length;
+										//专辑的数量
+										var album_len = data.album.length;*/
+
+					//创建p来装歌曲名
+					for(var i = 0; i < data.length; i++) {
+						var $p = document.createElement('p');
+						var $span_name = document.createElement('span');
+						var $span_singer = document.createElement('span');
+						$span_name.innerHTML = data[i].title + "-";
+						$span_singer.innerHTML = data[i].singer;
+						$p.append($span_name);
+						$p.append($span_singer);
+						$('.song_list').append($p);
+						$p.setAttribute('musicSrc', data[i].src);
+
+					}
+
+					//点击单曲名进行播放
+					$('.song_list p').click(function() {
+						//							console.log('$p.src---' + $(this).attr('src'));
+						//						把歌名显示到搜索框
+
+						//选完之后，隐藏搜索列表
+						$('.search_result').hide();
+						$('.simple_song_info').show()
+						$('.singer_song').hide();
+						//						console.log(txt)
+						//移除上一次的图片
+						$('.simple_song_info img').remove();
+						//						$('.simple_song_info .si_proxycompany').remove();
+						$('.simple_song_info').empty();
+
+						//把歌名显示到搜索框
+						var index = $(this).index();
+						var txt = $('.song_list p').eq(index).text();
+						$('#info').val(txt);
+
+						//把歌名添加到历史
+						saveSearchWords();
+
+						//播放歌曲
+						var audio = document.getElementById('audio');
+						audio.src = $(this).attr('musicSrc');
+						audio.play();
+						
+						var $img = document.createElement('img');
+						$img.src=data[index].itemsPic;
+						$('.simple_song_info').append($img);
+						
+
+						//显示歌词
+						for(var i = 0; i < data.length; i++) {
+							var index = $(this).index()
+							console.log(index)
+							var musicLrc = data[index].lrc;
+							var link = new String(musicLrc);
+
+							var arr = musicLrc.split('[');
+
+							for(var i = 0; i < arr.length; i++) {
+								var arr1 = arr[i].split(']');
+								//						console.log(arr1);
+								//						console.log(arr1[0] + '-------arr1[0]');
+
+								var m = arr1[0].split(':');
+
+								//								console.log(m[0] + '分')
+
+								if(m[1] != undefined) {
+									var sms = m[1].split('.');
+									//毫秒数
+									var ms = m[0] * 60 * 1000 + sms[0] * 1000 + sms[1] * 1;
+									var s = m[0] * 60 + sms[0] * 1;
+									//															console.log(sms[0] + "秒");
+									//															console.log(sms[1] + "毫秒");
+									//															console.log(ms + "总毫秒");
+
+								}
+								//						console.log(arr1[1]+"----arr1[1]");
+								//						console.log(typeof arr1[1]);
+								//将歌词字符串转化为对象，获得长度
+								var txt = new String(arr1[1]);
+								//								console.log(txt + "----txt");
+								//								console.log(txt.length + "----txt.length");
+
+								if(s > 0 && txt != undefined && txt.length > 2) {
+									var p = document.createElement('p');
+									p.className = 'txt_' + s;
+									$('.simple_song_info').append(p);
+
+									//							$('.simple_song_info p').eq(i).text(txt);
+									$('.simple_song_info').find('.txt_' + s).text(txt);
+
+								}
+
+							}
+
+							/* else {
+								$('.simple_song_info p').remove();
+								var html = "<p>暂无歌词</p>"
+								$('.simple_song_info ').append(html);
+							}*/
+
+						}
+
+					});
+
+					function play(data) {
+						var audio = document.getElementById('audio');
+						audio.src = data.bitrate.file_link;
+						audio.play();
+						/*if(b) {
+							audio.play();
+							b = false;
+						} else {
+							audio.pause();
+							b = true;
+
+						}
+//						console.log(b + "b----");*/
+
+					}
+
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					//					alert(XMLHttpRequest.status); // 200 
+					//					alert(errorThrown);
+				}
+
+			});
+		}
+
+		//点击默认列表的歌曲
+		$('.default_song li').click(function() {
+			//			console.log($(this).attr('song_id'));
+			var value = $("#info").val();
+			var index = $(this).index();
+			var txt = $('.default_song li').eq(index).text();
+			var txt = $('.default_song li').eq(index).html();
+			$('#info').val(txt);
+			saveSearchWords();
+			$('.simple_song_info').empty();
+			$.ajax({
+				url: "http://120.78.225.98/mu/getInfo?m=" + encodeURI(txt),
+				type: "get",
+				dataType: "json",
+				success: function(data) {
+					console.log(data);
+					showSongInfo(data);
+					play(data)
+				}
+			});
+		});
+
+		function play(data) {
+			var audio = document.getElementById('audio');
+			for(var i = 0; i < data.length; i++) {
+				audio.src = data[0].src;
+
+			}
+
+			audio.play();
+		}
+		//右侧显示歌词
+		function showSongInfo(data) {
+
+			for(var i = 0; i < data.length; i++) {
+				//				var index = $(this).index()
+				//				console.log(_index)
+				var musicLrc = data[0].lrc;
+				var link = new String(musicLrc);
+				//				console.log(link);
+				var arr = musicLrc.split('[');
+
+				for(var i = 0; i < arr.length; i++) {
+					var arr1 = arr[i].split(']');
+					//					console.log(arr1);
+					//						console.log(arr1[0] + '-------arr1[0]');
+
+					var m = arr1[0].split(':');
+
+					//								console.log(m[0] + '分')
+
+					if(m[1] != undefined) {
+						var sms = m[1].split('.');
+						//毫秒数
+						var ms = m[0] * 60 * 1000 + sms[0] * 1000 + sms[1] * 1;
+						var s = m[0] * 60 + sms[0] * 1;
+						//															console.log(sms[0] + "秒");
+						//															console.log(sms[1] + "毫秒");
+						//															console.log(ms + "总毫秒");
+
+					}
+					//						console.log(arr1[1]+"----arr1[1]");
+					//						console.log(typeof arr1[1]);
+					//将歌词字符串转化为对象，获得长度
+					var txt = new String(arr1[1]);
+					//					console.log(txt + "----txt");
+					//					console.log(txt.length + "----txt.length");
+
+					if(s > 0 && txt != undefined && txt.length > 2) {
+						var p = document.createElement('p');
+						p.className = 'txt_' + s;
+						$('.simple_song_info').append(p);
+
+						//							$('.simple_song_info p').eq(i).text(txt);
+						$('.simple_song_info').find('.txt_' + s).text(txt);
+
+					}
+
+				}
+
+				/* else {
+					$('.simple_song_info p').remove();
+					var html = "<p>暂无歌词</p>"
+					$('.simple_song_info ').append(html);
+				}*/
+
+			}
+			//			//显示单曲图片
+			//			var $img = document.createElement('img');
+			//			$('.simple_song_info').prepend($img);
+			//			$img.src = imgsrc;
+
+			//显示歌词,歌词变色
+
+			//									dataType:"json",
+
+		}
+
+		//		console.log(audio);
+		audio.ontimeupdate = function() {
+			var time = audio.currentTime;
+			var time_s = parseInt(time);
+			var index = $('.simple_song_info').find('.txt_' + time_s).index();
+			//			console.log(time_s);
+			$('.simple_song_info').find('.txt_' + time_s).addClass('select').siblings().removeClass('select');
+			if(index > 0) {
+				$('.simple_song_info').scrollTop((index - 2) * 28);
+
+			}
+
+		}
+		//点击搜索框，判断是否有已经有搜索内容，没有则显示默认歌曲列表
+		$('input').click(function(e) {
+			$('.search_history  ').show(); //搜索历史显示
+			var txt = $('.song_list p').html()
+
+			//			console.log(txt);
+			if(txt != undefined) {
+				$('.search_result').show();
+				$('.default_song').hide();
+				//				console.log(1)
+
+			} else {
+				$('.search_result').hide();
+				$('.default_song').show();
+
+				//				console.log(2)
+
+			}
+
+			e.stopPropagation();
+
+		});
+
+		$('body').click(function() {
+			//			$('.search_result').hide();
+			$('.default_song').hide(); //搜索历史隐藏
+			$('.search_history  ').hide(); //搜索历史隐藏
+
+		})
+
+		/*function hideResult(){
+			$('.search_result').hide();
+		}*/
+	</script>
+	<script>
+		var obj = {
+			"laoer": "1111"
+		};
+		var ojb2 = {
+			"laoda": "我就是老大"
+		}
+		obj.songinfo = ojb2;
+		//		console.log(obj);
+	</script>
+
+</html>

@@ -1,0 +1,104 @@
+[
+	{
+		"name": "棉花糖",
+		"author": "黑崎子",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "mianhuatang.mp3"
+	}, {
+		"name": "相亲相爱一家人",
+		"author": "群星",
+		"times": 5,
+		"img_url": "img/bg3.jpg",
+		"song_url": "xiangqinxiangqiyijiaren.mp3"
+	}, {
+		"name": "认真的雪",
+		"author": "薛之谦",
+		"times": 2,
+		"img_url": "img/bg2.jpg",
+		"song_url": "renzhendexue.mp3"
+
+	}, {
+		"name": "年轻的战场",
+		"author": "张杰",
+		"times": 3,
+		"img_url": "img/bg0.jpg",
+		"song_url": "nianqindezhanchang.mp3"
+
+	}, {
+		"name": "海阔天空",
+		"author": "群星",
+		"times": 1,
+		"img_url": "img/bg4.jpg",
+		"song_url": "haikuotiankong.mp3"
+
+	}, {
+		"name": "让我一次爱个够",
+		"author": "群星",
+		"times": 6,
+		"img_url": "img/bg4.jpg",
+		"song_url": "rangwoyiciaigegou.mp3"
+
+	}, {
+		"name": "撕夜",
+		"author": "阿杜",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "siye.mp3"
+		
+	}, {
+		"name": "第一首写给程序员的《成都》",
+		"author": "戴秋平",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "chengdu.mp3"
+	}, {
+		"name": "第一首写给程序员的《成都》",
+		"author": "戴秋平",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "chengdu.mp3"
+	}, {
+		"name": "第一首写给程序员的《成都》",
+		"author": "戴秋平",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "chengdu.mp3"
+	}, {
+		"name": "第一首写给程序员的《成都》",
+		"author": "戴秋平",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "chengdu.mp3"
+	}, {
+		"name": "第一首写给程序员的《成都》",
+		"author": "戴秋平",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "chengdu.mp3"
+	}, {
+		"name": "第一首写给程序员的《成都》",
+		"author": "戴秋平",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "chengdu.mp3"
+	}, {
+		"name": "第一首写给程序员的《成都》",
+		"author": "戴秋平",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "chengdu.mp3"
+	}, {
+		"name": "第一首写给程序员的《成都》",
+		"author": "戴秋平",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "chengdu.mp3"
+	}, {
+		"name": "第一首写给程序员的《成都》",
+		"author": "戴秋平",
+		"times": 6,
+		"img_url": "img/bg1.jpg",
+		"song_url": "chengdu.mp3"
+	}
+]

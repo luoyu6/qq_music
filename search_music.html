@@ -22,15 +22,15 @@
 				<input type="text" value="" placeholder="搜索音乐、单曲、歌手、专辑" id="info" onpropertychange="showSong()" oninput="showSong()" /><i class="icon-sousuo iconfont" onclick="saveSearchWords()"></i>
 
 				<div class="search_result">
-					<h4 class="song"><i class="icon-yinle iconfont"></i>单曲</h4>
+					<!--<h4 class="song"><i class="icon-yinle iconfont"></i>单曲</h4>-->
 					<div class="song_list">
 
 					</div>
-					<h4 class="singer"><i class="icon-yonghu iconfont"></i>歌手</h4>
+					<!--<h4 class="singer"><i class="icon-yonghu iconfont"></i>歌手</h4>-->
 					<div class="singer_list">
 
 					</div>
-					<h4 class="album"><i class="icon-zhuanji iconfont"></i>专辑</h4>
+					<!--<h4 class="album"><i class="icon-zhuanji iconfont"></i>专辑</h4>-->
 					<div class="album_list">
 
 					</div>
@@ -42,9 +42,9 @@
 						<li song_id="352989">他一定很爱你</li>
 						<li song_id="433275">下雨的时候会想你</li>
 						<li song_id="267690">爱一点</li>
-						<li song_id="1329365">Always Online</li>
+						<li song_id="1329365">IF YOU</li>
 						<li song_id="430248">我在你的爱情之外</li>
-						<li song_id="5738291">爱笑的眼睛</li>
+						<li song_id="5738291">LOSER</li>
 						<li song_id="353040">天黑</li>
 
 					</ul>
@@ -144,7 +144,7 @@
 			$.ajax({
 				type: "get",
 				//				url: "http://tingapi.ting.baidu.com/v1/restserver/ting?method=baidu.ting.search.catalogSug&query=" + value,
-				url: "http://120.78.225.98/mu/getInfo?m=" + encodeURI(value),
+				url: "https://120.78.225.98:8066/mu/getInfo?m=" + encodeURI(value),
 				async: true,
 				dataType: "json",
 				//jsonp: "callback",
@@ -306,7 +306,7 @@
 			saveSearchWords();
 			$('.simple_song_info').empty();
 			$.ajax({
-				url: "http://120.78.225.98/mu/getInfo?m=" + encodeURI(txt),
+				url: "https://120.78.225.98:8066/mu/getInfo?m=" + encodeURI(txt),
 				type: "get",
 				dataType: "json",
 				success: function(data) {

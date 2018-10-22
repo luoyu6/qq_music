@@ -45,15 +45,16 @@ body {
 	margin-top: 20px;
 }
 
-.music_item>span {
-	margin-left: 10px;
-}
+
 
 .music_item>span.name {
 	margin-left: 10px;
 	width: 420px;
 }
-
+.music_item >.state,.music_item >.state_img{
+	    display: block;
+    width: 20px;
+}
 .music_item>span.author {
 	width: 200px;
 }
@@ -159,6 +160,7 @@ body {
 }
 .border-top {
 	border-top: 1px solid rgba(255, 255, 255, .2);
+    /*border-bottom: 1px solid rgba(255, 255, 255, .2);*/
 }
 
 .music_item .name span {

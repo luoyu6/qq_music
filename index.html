@@ -372,7 +372,7 @@
 					if(play) {
 						$('.play_footer a .laodao66').removeClass('icon-zanting').addClass('icon-bofang');
 						$('.music_item ').eq(index).find('.name .icon-Icon_bofang').removeClass('icon-Icon_bofang').addClass('icon-bofang');
-						$('.music_item').eq(index).find(' .state_img img').show().parent('.state_img').siblings('.state').hide().parents('.music_item').siblings().find('.state_img img').hide();
+						$('.music_item').eq(index).find('.state').hide().siblings(' .state_img').find('img').show().parents('.music_item').siblings().find('.state').show().siblings('.state_img').find('img').hide();
 						$('.music_item').eq(index).find(' .name .btn_play').addClass('icon-bofang').removeClass('icon-Icon_bofang').parents('.music_item ').siblings('.music_item ').find('.name .btn_play').addClass('icon-Icon_bofang').removeClass('icon-bofang');
 					} else {
 						$('.play_footer a .laodao66').removeClass('icon-bofang').addClass('icon-zanting');
@@ -417,9 +417,6 @@
 						isPaused(false);//按钮状态 播放/暂停
 
 					}
-
-					//					console.log(index + "---底部按钮播放暂停")
-					//					console.log(b + "---bbbbbbbb")
 				}
 
 				//index改变，就显示对应的歌曲的全部歌词 start

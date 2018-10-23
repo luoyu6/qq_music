@@ -3,9 +3,6 @@
 
 	<head>
 		<meta charset="utf-8" />
-		<meta name="author" content="小鱼儿是大美女"/>
-		<meta name="keywords" content="qq音乐播放器 jQuery项目 js项目 ajax异步，跨域，HTML5,css3"/>
-		<meta>
 		<title></title>
 		<link rel="stylesheet" type="text/css" href="css/default.css" />
 		<link rel="stylesheet" type="text/css" href="css/index.css" />

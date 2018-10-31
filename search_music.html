@@ -99,9 +99,10 @@
 		//保存数据
 		function saveSearchWords() {
 			var value = $("#info").val();
-			localStorage.setItem(value, value);
+			localStorage.setItem("我是key--"+value, value);
+//			localStorage.setItem('last_Search', value+"--");
 
-			//			alert("添加成功");
+//						alert("添加成功");
 
 		}
 		//将所有存储在localStorage中的对象提取出来，并展现到界面上
@@ -113,7 +114,10 @@
 				for(var i = 0; i < localStorage.length; i++) {
 
 					var k = localStorage.key(i);
+
 					var value = localStorage.getItem(k);
+//					console.log(k+"========"+value);
+					
 					var $p = document.createElement('p');
 					$('.search_history_list').append($p);
 					$p.innerHTML = value;
@@ -169,15 +173,28 @@
 					//创建p来装歌曲名
 					for(var i = 0; i < data.length; i++) {
 						var $p = document.createElement('p');
-						var $span_name = document.createElement('span');
-						var $span_singer = document.createElement('span');
-						$span_name.innerHTML = data[i].title + "-";
-						$span_singer.innerHTML = data[i].singer;
-						$p.append($span_name);
-						$p.append($span_singer);
+						//						var $span_name = document.createElement('span');
+						//						var $span_singer = document.createElement('span');
+						//						$span_name.innerHTML = data[i].title + "-";
+						//						$span_singer.innerHTML = data[i].singer;
+						//						$p.append($span_name);
+						//						$p.append($span_singer);
+						$p.innerHTML = data[i].title + "- " + data[i].singer
 						$('.song_list').append($p);
 						$p.setAttribute('musicSrc', data[i].src);
 
+					}
+					var $song_list_child = document.getElementsByClassName('song_list')[0].children;
+					console.log($song_list_child);
+					for(var i = 0; i < $song_list_child.length; i++) {
+						var txt = $song_list_child[i].innerHTML;
+						var value = $("#info").val();
+						var str = txt.split(value);
+
+						//						$('.song_list p').eq(i).html(str.join('<i style="color:#2CAF6F;">' + value + '</i>'));
+						$song_list_child[i].innerHTML = str.join('<i style="color:#2CAF6F;">' + value + '</i>');
+
+						//						console.log(str);
 					}
 
 					//点击单曲名进行播放
@@ -207,16 +224,15 @@
 						var audio = document.getElementById('audio');
 						audio.src = $(this).attr('musicSrc');
 						audio.play();
-						
+
 						var $img = document.createElement('img');
-						$img.src=data[index].itemsPic;
+						$img.src = data[index].itemsPic;
 						$('.simple_song_info').append($img);
-						
 
 						//显示歌词
 						for(var i = 0; i < data.length; i++) {
 							var index = $(this).index()
-							console.log(index)
+//							console.log(index)
 							var musicLrc = data[index].lrc;
 							var link = new String(musicLrc);
 

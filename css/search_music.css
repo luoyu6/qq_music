@@ -41,6 +41,13 @@
 .song_list p span{
 	margin-right: 15px;
 }
+.search_result>div p:hover  i{
+    /*background: #2CAF6F;*/
+    color: #fff !important;
+}
+i{
+	font-style: normal;
+}
 .search input {
 	width: 300px;
 	height: 40px;

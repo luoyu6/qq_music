@@ -3,11 +3,10 @@
 
 	<head>
 		<meta charset="utf-8" />
-		<meta name="author" content="小鱼儿是大美女"/>
-		<meta name="keywords" content="qq音乐播放器 jQuery项目 js项目 ajax异步，跨域，HTML5,css3"/>
-		<meta>
-		<title></title>
-		<link rel="icon" type="image/x-icon" href="img/0.png">
+		<meta name="author" content="罗余" />
+		<meta name="keywords" content="音乐,QQ音乐,在线听歌,音乐下载,音乐播放器,音乐网站,MV,巅峰榜,音乐排行榜,翻译歌曲,热门歌曲,经典老歌,无损音乐,无损曲库" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<title>QQ音乐-千万正版音乐海量无损曲库新歌热歌天天畅听的高品质音乐平台！</title>
 		<link rel="stylesheet" type="text/css" href="css/default.css" />
 		<link rel="stylesheet" type="text/css" href="css/index.css" />
 		<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_830700_8ku9990wwlq.css" />
@@ -17,7 +16,7 @@
 	<body>
 		<h1 class="player_logo"><a href="search_music.html" target="_blank"><img src="img/player_logo@2x.png"/></a></h1>
 		<div class="container clearfix playbox">
-			<div class="main_content">
+			<div class="main_content clearfix">
 				<div class="box_left fl">
 					<div class="mod_songlist_toolbar">
 						<ul class="clearfix">
@@ -131,54 +130,76 @@
 	<script type="text/javascript">
 		var _type = true;
 
-		$('.scroll_bar .bar').mousedown(function(e) {
-			$('body').addClass('noselects');
-			//			e.stopPropagation();
-			$(document).mousemove(function(e) {
-				//鼠标的位置
-				var y = e.clientY || e.pageY
-				//滚动条的父元素
-				var scroll_bar_height = $('.scroll_bar').height();
-				//计算li的个数
-				var item_len = $('.music_list  li ').length;
-				//一个li高度
-				var $height = $('.music_list  li ').eq(0).height();
-				//所有li总高度	
-				var $totle_height = $height * item_len;
-				//滚动条高度
-				var $bar_height = $('.scroll_bar .bar').height()
-				//				var $bar_height = ($totle_height / scroll_bar_height) * $height;
-				/*$('.scroll_bar .bar').css({
-					'height': $bar_height
-				});*/
+		//拖动鼠标，滑动歌词列表
+		$(function() {
+			$('.scroll_bar .bar').mousedown(function(e) {
+				$('body').addClass('noselects');
+				//			e.stopPropagation();
+				$(document).mousemove(function(e) {
+					//鼠标的位置
+					var y = e.clientY || e.pageY
+					//滚动条的父元素
+					var scroll_bar_height = $('.scroll_bar').height();
+					//计算li的个数
+					var item_len = $('.music_list  li ').length;
+					//一个li高度
+					var $height = $('.music_list  li ').eq(0).height();
+					//所有li总高度	
+					var $totle_height = $height * item_len;
+					//滚动条高度
+					var $bar_height = $('.scroll_bar .bar').height()
+					//				var $bar_height = ($totle_height / scroll_bar_height) * $height;
+					/*$('.scroll_bar .bar').css({
+						'height': $bar_height
+					});*/
 
-				//				var bar_height = $('.scroll_bar .bar').height();
-				//滚动条的父元素的top
-				var top = $('.scroll_bar ').offset().top;
-				//滚动条的的top
-				var h = y - top - $bar_height / 2;
-				var bit = h / scroll_bar_height;
+					//				var bar_height = $('.scroll_bar .bar').height();
+					//滚动条的父元素的top
+					var top = $('.scroll_bar ').offset().top;
+					//滚动条的的top
+					var h = y - top - $bar_height / 2;
+					var bit = h / scroll_bar_height;
 
-				console.log(h + "---h");
+					console.log(h + "---h");
 
-				if(h > scroll_bar_height - $bar_height) {
-					h = scroll_bar_height - $bar_height;
-				}
-				if(h < 0) {
-					h = 0;
-				}
-				$('.music_list').addClass('ppp').scrollTop($totle_height * bit);
-				$('.scroll_bar .bar').css({
-					'top': h
+					if(h > scroll_bar_height - $bar_height) {
+						h = scroll_bar_height - $bar_height;
+					}
+					if(h < 0) {
+						h = 0;
+					}
+					$('.music_list').addClass('ppp').scrollTop($totle_height * bit);
+					$('.scroll_bar .bar').css({
+						'top': h
+					});
+
+				}).mouseup(function() {
+					$(document).unbind('mousemove');;
+					$('body').removeClass('noselects');
+
 				});
-
-			}).mouseup(function() {
-				$(document).unbind('mousemove');;
-				$('body').removeClass('noselects');
-
-				//				
 			});
-		});
+		})
+
+		$(document).on('mousewheel DOMMouseScroll', onMouseScroll);
+		var num = 0;
+
+		function onMouseScroll(e) {
+			e.preventDefault();
+			var wheel = e.originalEvent.wheelDelta || -e.originalEvent.detail;
+			var delta = Math.max(-1, Math.min(1, wheel));
+
+			num += 200;
+			if(delta < 0) { //向下滚动
+				$('.music_list').scrollTop(num);
+				console.log('向下滚动');
+			} else { //向上滚动
+				console.log('向上滚动');
+				$('.music_list').scrollTop(-num);
+
+			}
+			console.log(num)
+		}
 
 		//播放界面模式切换
 		$('.type_select').click(function() {
@@ -222,13 +243,19 @@
 				}
 				//点击音量按钮
 				$('.player_voice ').mousedown(function(e) {
+					//鼠标位置
 					var x = e.clientX || e.pageX;
-					var $voice__dot_left = $('.player_voice__dot').offset.left;
+					//获取进度条的left值					
 					var $voice_load_left = $('.player_voice_load').offset().left;
+					// 鼠标在进度条上的位置					
 					var w = x - $voice_load_left;
+					// 获取点击元素的最大位置			
+					var maxLeft = $('.player_voice_load').width();
+
 					$('.player_voice__play').css({
 						'width': w
 					});
+					audio.volume = w / maxLeft;
 					//					console.log(x+"----")
 
 				});
@@ -337,9 +364,9 @@
 					}
 					audio.src = "mp3/" + data[index].song_url;
 					audio.play();
-					loadLrc();//加载歌词
-					songInfo(index);//歌曲信息：歌名，歌手
-					isPaused(true)//按钮状态 播放/暂停
+					loadLrc(); //加载歌词
+					songInfo(index); //歌曲信息：歌名，歌手
+					isPaused(true) //按钮状态 播放/暂停
 					//					console.log(audio.src + "----------")
 					//					console.log(index + "上一首");
 				});
@@ -367,7 +394,7 @@
 					loadLrc();
 					songInfo(index);
 					console.log(index + "下一首");
-					isPaused(true)//按钮状态 播放/暂停
+					isPaused(true) //按钮状态 播放/暂停
 
 				})
 				//按钮状态 播放/暂停
@@ -410,15 +437,15 @@
 
 						}
 						audio.play();
-						animation(true);//专辑旋转特效
+						animation(true); //专辑旋转特效
 						b = false;
-						isPaused(true);//按钮状态 播放/暂停
+						isPaused(true); //按钮状态 播放/暂停
 
 					} else {
 						audio.pause();
 						animation(false);
 						b = true;
-						isPaused(false);//按钮状态 播放/暂停
+						isPaused(false); //按钮状态 播放/暂停
 
 					}
 				}
@@ -577,32 +604,30 @@
 
 					})
 				});
-	
+
 				function playOrPause(index, obj) { //改变按钮样式
 					//每次进来都重新给歌曲的地址
 					audio.src = "mp3/" + data[index].song_url;
 					var sel = obj.parents('.music_item ').attr('sel');
 					//播放暂停切换:如果当前暂停，下一次就播放
 					if(!sel) {
-						obj.parents('.music_item ').attr('sel','select').siblings().removeAttr('sel');
+						obj.parents('.music_item ').attr('sel', 'select').siblings().removeAttr('sel');
 						audio.play();
-						b = false;
 						animation(true);
-						isPaused(true);//按钮状态 播放/暂停
+						isPaused(true); //按钮状态 播放/暂停
 
 					} else {
 						audio.pause();
 						obj.parents('.music_item ').removeAttr('sel');
 						$('.author_img ').removeClass('animation');
-						b = true;
-						isPaused(false);//按钮状态 播放/暂停
+						isPaused(false); //按钮状态 播放/暂停
 						animation(false);
 
 					}
 					songInfo(index);
 
 					$('.bg_player').css({
-						'background-image': data[index].img_url
+						'background-image': 'url(' + data[index].img_url + ')'
 					});
 				}
 

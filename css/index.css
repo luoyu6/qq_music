@@ -1,4 +1,4 @@
-body {
+html,body {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
@@ -30,7 +30,9 @@ body {
 	height: 14px;
 	margin-top: 20px;
 }
-
+.time{
+	width: 80px;
+}
 .music_item>input,
 .music_item>span,
 .music_item>img {
@@ -256,6 +258,7 @@ body {
 	height: 100%;
 	overflow: hidden;
 	z-index: 1;
+	min-width: 1170px;
 }
 
 .bg_player_mask {
@@ -268,6 +271,7 @@ body {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
+	    min-width: 1170px;
 }
 
 .play_footer {
